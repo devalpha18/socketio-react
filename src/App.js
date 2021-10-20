@@ -1,7 +1,23 @@
+import { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import { initiateSocketConnection, disconnectSocket, subscribeToChat } from './socketio.service'
+
 function App() {
+
+  useEffect(() => {
+    initiateSocketConnection();
+
+    subscribeToChat((err, data) => {
+      console.log(data);
+    });
+
+    return () => {
+      disconnectSocket();
+    }
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
